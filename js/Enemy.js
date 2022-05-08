@@ -15,7 +15,6 @@ export default class Enemy extends Phaser.Physics.Matter.Sprite {
         this.setScale(1.25);
         this.setExistingBody(compoundBody);
         this.setFixedRotation();
-        this.anims.play('knight_walk', true);
     }
 
     static preload(scene) {
@@ -42,23 +41,15 @@ export default class Enemy extends Phaser.Physics.Matter.Sprite {
         this.setVelocity(enemyVelocity.x, enemyVelocity.y);
 
         if (this.velocity.x < 0) {
-            this.anims.play('knight_mirror_walk', true);
-            this.previousDirection = 'left';
+            this.anims.play('knight_walk', true);
+            this.flipX = true;
         } else if (this.velocity.x > 0) {
             this.anims.play('knight_walk', true);
-            this.previousDirection = 'right';
+            this.flipX = false;
         } else if (Math.abs(this.velocity.y) > 0) {
-            if (this.previousDirection === 'left') {
-                this.anims.play('knight_mirror_walk', true);
-            } else {
-                this.anims.play('knight_walk', true);
-            }
+            this.anims.play('knight_walk', true);
         } else {
-            if (this.previousDirection === 'left') {
-                this.anims.play('knight_mirror_idle', true);
-            } else {
-                this.anims.play('knight_idle', true);
-            }
+            this.anims.play('knight_idle', true);
         }
     }
 

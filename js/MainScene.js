@@ -17,18 +17,17 @@ export default class MainScene extends Phaser.Scene {
 
     create() {
         this.map = this.make.tilemap({ key: 'map' });
-        const tileset = this.map.addTilesetImage('rpg_nature_tileset', 'tiles', 32, 32, 0, 0);
+        this.tileset = this.map.addTilesetImage('rpg_nature_tileset', 'tiles', 32, 32, 0, 0);
 
-        const layer1 = this.map.createLayer('Tile Layer 1', tileset, 0, 0);
-        layer1.setCollisionByProperty({ collides: true });
-        this.matter.world.convertTilemapLayer(layer1);
+        this.layer1 = this.map.createStaticLayer('Tile Layer 1', this.tileset, 0, 0);
+        this.layer1.setCollisionByProperty({ collides: true });
+        this.matter.world.convertTilemapLayer(this.layer1);
+
+        this.layer2 = this.map.createStaticLayer('Tile Layer 2', this.tileset, 0, 0);
+        this.layer2.setCollisionByProperty({ collides: true });
+        this.matter.world.convertTilemapLayer(this.layer2);
 
         this.player = new Player({ scene: this, x: 514, y: 514, texture: 'archer', frame: 'archer_idle_1' });
-
-        const layer2 = this.map.createLayer('Tile Layer 2', tileset, 0, 0);
-        layer2.setCollisionByProperty({ collides: true });
-        this.matter.world.convertTilemapLayer(layer2);
-
         this.player.inputKeys = this.input.keyboard.addKeys({
             up: Phaser.Input.Keyboard.KeyCodes.W,
             left: Phaser.Input.Keyboard.KeyCodes.A,
@@ -57,8 +56,10 @@ export default class MainScene extends Phaser.Scene {
     }
 
     createEnemy(type, amount) {
-        for (let i = 0; i < amount; i++) {
-            this.enemies.push(new Enemy({ scene: this, x: this.generateCoordinate(), y: this.generateCoordinate(), texture: 'knight', frame: 'knight_walk_1' }));
+        if (type === 'standard') {
+            for (let i = 0; i < amount; i++) {
+                this.enemies.push(new Enemy({ scene: this, x: this.generateCoordinate(), y: this.generateCoordinate(), texture: 'knight', frame: 'knight_walk_1' }));
+            }
         }
     }
 }

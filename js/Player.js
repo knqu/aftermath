@@ -15,8 +15,6 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
         this.setScale(1.25);
         this.setExistingBody(compoundBody);
         this.setFixedRotation();
-
-        let previousDirection = 'right';
     }
 
     static preload(scene) {
@@ -47,23 +45,15 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
         this.setVelocity(playerVelocity.x, playerVelocity.y);
 
         if (this.velocity.x < 0) {
-            this.anims.play('archer_mirror_walk', true);
-            this.previousDirection = 'left';
+            this.anims.play('archer_walk', true);
+            this.flipX = true;
         } else if (this.velocity.x > 0) {
             this.anims.play('archer_walk', true);
-            this.previousDirection = 'right';
+            this.flipX = false;
         } else if (Math.abs(this.velocity.y) > 0) {
-            if (this.previousDirection === 'left') {
-                this.anims.play('archer_mirror_walk', true);
-            } else {
-                this.anims.play('archer_walk', true);
-            }
+            this.anims.play('archer_walk', true);
         } else {
-            if (this.previousDirection === 'left') {
-                this.anims.play('archer_mirror_idle', true);
-            } else {
-                this.anims.play('archer_idle', true);
-            }
+            this.anims.play('archer_idle', true);
         }
     }
 
