@@ -1,0 +1,52 @@
+{
+    "anims": [
+        {
+            "key": "archer_walk",
+            "type": "frames",
+            "repeat": -1,
+            "frameRate": 12,
+            "frames": [
+                {
+                    "key": "archer",
+                    "frame": "archer_walk_1"
+                },
+                {
+                    "key": "archer",
+                    "frame": "archer_walk_2"
+                },
+                {
+                    "key": "archer",
+                    "frame": "archer_walk_3"
+                },
+                {
+                    "key": "archer",
+                    "frame": "archer_walk_4"
+                }
+            ]
+        },
+        {
+            "key": "archer_idle",
+            "type": "frames",
+            "repeat": -1,
+            "frameRate": 12,
+            "frames": [
+                {
+                    "key": "archer",
+                    "frame": "archer_idle_1"
+                },
+                {
+                    "key": "archer",
+                    "frame": "archer_idle_2"
+                },
+                {
+                    "key": "archer",
+                    "frame": "archer_idle_3"
+                },
+                {
+                    "key": "archer",
+                    "frame": "archer_idle_4"
+                }
+            ]
+        }
+    ]
+}
