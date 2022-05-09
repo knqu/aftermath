@@ -20,9 +20,7 @@ export default class Enemy extends Phaser.Physics.Matter.Sprite {
     static preload(scene) {
         scene.load.atlas('knight', 'assets/images/knight.png', 'assets/images/knight_atlas.json');
         // https://superdark.itch.io/16x16-free-npc-pack
-        scene.load.atlas('knight_mirror', 'assets/images/knight_mirror.png', 'assets/images/knight_mirror_atlas.json');
         scene.load.animation('knight_anim', 'assets/images/knight_anim.json');
-        scene.load.animation('knight_mirror_anim', 'assets/images/knight_mirror_anim.json');
     }
 
     update() {

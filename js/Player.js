@@ -20,9 +20,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
     static preload(scene) {
         scene.load.atlas('archer', 'assets/images/archer.png', 'assets/images/archer_atlas.json');
         // https://superdark.itch.io/16x16-free-npc-pack
-        scene.load.atlas('archer_mirror', 'assets/images/archer_mirror.png', 'assets/images/archer_mirror_atlas.json');
         scene.load.animation('archer_anim', 'assets/images/archer_anim.json');
-        scene.load.animation('archer_mirror_anim', 'assets/images/archer_mirror_anim.json');
     }
 
     update() {
