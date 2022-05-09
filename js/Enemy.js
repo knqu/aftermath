@@ -26,7 +26,7 @@ export default class Enemy extends Phaser.Physics.Matter.Sprite {
     }
 
     update() {
-        const speed = 3.5;
+        const speed = 3.25;
         let enemyVelocity = new Phaser.Math.Vector2();
 
         if (Phaser.Math.Distance.Between(this.x, this.y, this.scene.player.x, this.scene.player.y) < 192) { // 6 tiles
