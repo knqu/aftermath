@@ -18,11 +18,13 @@ const config = {
     },
     scene: [MainScene],
     plugins: {
-        scene: [{
-            plugin: PhaserMatterCollisionPlugin,
-            key: "matterCollision",
-            mapping: "matterCollision"
-        }]
+        scene: [
+            {
+                plugin: PhaserMatterCollisionPlugin.default,
+                key: "matterCollision",
+                mapping: "matterCollision"
+            }
+        ]
     }
 
 };
