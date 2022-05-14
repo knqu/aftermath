@@ -30,17 +30,16 @@ export default class MainScene extends Phaser.Scene {
 
         this.player = new Player({ scene: this, x: 514, y: 514 });
         this.player.inputKeys = this.input.keyboard.addKeys({
-            up: Phaser.Input.Keyboard.KeyCodes.W,
-            left: Phaser.Input.Keyboard.KeyCodes.A,
-            down: Phaser.Input.Keyboard.KeyCodes.S,
-            right: Phaser.Input.Keyboard.KeyCodes.D
+            keyW: Phaser.Input.Keyboard.KeyCodes.W,
+            keyA: Phaser.Input.Keyboard.KeyCodes.A,
+            keyS: Phaser.Input.Keyboard.KeyCodes.S,
+            keyD: Phaser.Input.Keyboard.KeyCodes.D,
+            keyTAB: Phaser.Input.Keyboard.KeyCodes.TAB
         });
 
         this.camera = this.cameras.main;
         this.camera.zoom = 1.5;
         this.camera.startFollow(this.player);
-
-        this.createEnemy('standard', 4);
     }
 
     update() {
@@ -49,17 +48,57 @@ export default class MainScene extends Phaser.Scene {
 
         if (this.enemies.length === 0) {
             if (this.wave === 1) {
-                this.createEnemy('standard', 4);
-                this.createEnemy('heavy', 2);
+                this.spawnEnemy('standard', 4);
             } else if (this.wave === 2) {
-                this.createEnemy('standard', 4);
-                this.createEnemy('heavy', 4);
+                this.spawnEnemy('standard', 4);
+                this.spawnEnemy('heavy', 2);
             } else if (this.wave === 3) {
-                this.createEnemy('elite', 6);
+                this.spawnEnemy('standard', 4);
+                this.spawnEnemy('heavy', 4);
             } else if (this.wave === 4) {
-                this.createEnemy('captain', 1);
+                this.spawnEnemy('elite', 6);
+            } else if (this.wave === 5) {
+                this.spawnEnemy('captain', 1);
             }
             this.wave += 1;
+        }
+
+        if (this.player.inputKeys.keyTAB.isDown) {
+            let command = prompt('Enter a command using the following format: \n[command] [arg1] [arg2]');
+            if (!command) {
+                return;
+            }
+            command = command.split(' ');
+
+            if (command[0] === 'spawnEnemies') {
+                this.spawnEnemy(command[1], command[2]);
+            } else if (command[0] === 'setWave') {
+                this.wave = parseInt(command[1]);
+                this.enemies.forEach(function (enemy) {
+                    enemy.destroy();
+                });
+                this.enemies = [];
+            } else if (command[0] === 'teleport') {
+                this.player.x = command[1] * 32;
+                this.player.y = command[2] * 32;
+            } else if (command[0] === 'locateEnemies') {
+                let coords = [];
+                this.enemies.forEach(function (enemy) {
+                    coords.push(`[${enemy.enemyType}] ${enemy.x / 32}, ${enemy.y / 32}`);
+                });
+                if (command[1] === 'console') {
+                    for (let i = 0; i < coords.length; i++) {
+                        console.log(coords[i]);
+                    }
+                    console.log('');
+                } else {
+                    alert(coords.join('\n'));
+                }
+            } else if (command[0] === 'invisible') {
+                this.player.visible = false;
+            } else if (command[0] === 'visible') {
+                this.player.visible = true;
+            }
         }
     }
 
@@ -71,22 +110,22 @@ export default class MainScene extends Phaser.Scene {
         return n;
     }
 
-    createEnemy(type, amount) {
+    spawnEnemy(type, amount) {
         if (type === 'standard') {
             for (let i = 0; i < amount; i++) {
-                this.enemies.push(new Enemy({ type: 'standard', scene: this, x: this.generateCoordinate(), y: this.generateCoordinate() }));
+                this.enemies.push(new Enemy({ scene: this, x: this.generateCoordinate(), y: this.generateCoordinate(), type: 'standard' }));
             }
         } else if (type === 'heavy') {
             for (let i = 0; i < amount; i++) {
-                this.enemies.push(new Enemy({ type: 'heavy', scene: this, x: this.generateCoordinate(), y: this.generateCoordinate() }));
+                this.enemies.push(new Enemy({ scene: this, x: this.generateCoordinate(), y: this.generateCoordinate(), type: 'heavy' }));
             }
         } else if (type === 'elite') {
             for (let i = 0; i < amount; i++) {
-                this.enemies.push(new Enemy({ type: 'elite', scene: this, x: this.generateCoordinate(), y: this.generateCoordinate() }));
+                this.enemies.push(new Enemy({ scene: this, x: this.generateCoordinate(), y: this.generateCoordinate(), type: 'elite' }));
             }
         } else if (type === 'captain') {
             for (let i = 0; i < amount; i++) {
-                this.enemies.push(new Enemy({ type: 'captain', scene: this, x: this.generateCoordinate(), y: this.generateCoordinate() }));
+                this.enemies.push(new Enemy({ scene: this, x: this.generateCoordinate(), y: this.generateCoordinate(), type: 'captain' }));
             }
         }
     }
