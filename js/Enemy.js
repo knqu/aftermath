@@ -5,35 +5,39 @@ export default class Enemy extends Phaser.Physics.Matter.Sprite {
         this.scene.add.existing(this);
         this.enemyType = type;
 
-        const { Body, Bodies } = Phaser.Physics.Matter.Matter;
-        let enemyCollider = Bodies.circle(this.x, this.y, 12, { isSensor: false, label: 'enemyCollider' });
-        let enemySensor = Bodies.circle(this.x, this.y, 160, { isSensor: true, label: 'enemySensor' });
-        const compoundBody = Body.create({
-            parts: [enemyCollider, enemySensor],
-            frictionAir: 0.3
-        });
-
-        if (type === 'standard') {
+        if (this.enemyType === 'standard') {
             this.damage = 2;
             this.armor = 1;
             this.speed = 3.25;
             this.viewRange = 5;
-        } else if (type === 'heavy') {
+            this.radius = 12;
+        } else if (this.enemyType === 'heavy') {
             this.damage = 3;
             this.armor = 4;
             this.speed = 2.75;
             this.viewRange = 5;
-        } else if (type === 'elite') {
+            this.radius = 14;
+        } else if (this.enemyType === 'elite') {
             this.damage = 3;
             this.armor = 2;
             this.speed = 3.75;
             this.viewRange = 6;
-        } else if (type === 'captain') {
+            this.radius = 12;
+        } else if (this.enemyType === 'captain') {
             this.damage = 5;
             this.armor = 8;
             this.speed = 3.5;
             this.viewRange = 7;
+            this.radius = 18;
         }
+
+        const { Body, Bodies } = Phaser.Physics.Matter.Matter;
+        let enemyCollider = Bodies.circle(this.x, this.y, this.radius, { isSensor: false, label: 'enemyCollider' });
+        let enemySensor = Bodies.circle(this.x, this.y, this.viewRange * 32, { isSensor: true, label: 'enemySensor' });
+        const compoundBody = Body.create({
+            parts: [enemyCollider, enemySensor],
+            frictionAir: 0.3
+        });
 
         this.setScale(1.25);
         this.setExistingBody(compoundBody);
@@ -42,8 +46,14 @@ export default class Enemy extends Phaser.Physics.Matter.Sprite {
 
     static preload(scene) {
         // https://superdark.itch.io/16x16-free-npc-pack
-        scene.load.atlas('knight', 'assets/images/knight.png', 'assets/images/knight_atlas.json');
-        scene.load.animation('knight_anim', 'assets/images/knight_anim.json');
+        scene.load.atlas('knight', 'assets/sprites/knight.png', 'assets/sprites/knight_atlas.json');
+        scene.load.animation('knight_anim', 'assets/sprites/knight_anim.json');
+        scene.load.atlas('heavyknight', 'assets/sprites/heavyknight.png', 'assets/sprites/heavyknight_atlas.json');
+        scene.load.animation('heavyknight_anim', 'assets/sprites/heavyknight_anim.json');
+        scene.load.atlas('eliteknight', 'assets/sprites/eliteknight.png', 'assets/sprites/eliteknight_atlas.json');
+        scene.load.animation('eliteknight_anim', 'assets/sprites/eliteknight_anim.json');
+        scene.load.atlas('captain', 'assets/sprites/captain.png', 'assets/sprites/captain_atlas.json');
+        scene.load.animation('captain_anim', 'assets/sprites/captain_anim.json');
     }
 
     update() {
@@ -51,14 +61,14 @@ export default class Enemy extends Phaser.Physics.Matter.Sprite {
             this.idleAnim = 'knight_idle';
             this.walkAnim = 'knight_walk';
         } else if (this.enemyType === 'heavy') {
-            this.idleAnim = 'knight_idle';
-            this.walkAnim = 'knight_walk';
+            this.idleAnim = 'heavyknight_idle';
+            this.walkAnim = 'heavyknight_walk';
         } else if (this.enemyType === 'elite') {
-            this.idleAnim = 'knight_idle';
-            this.walkAnim = 'knight_walk';
+            this.idleAnim = 'eliteknight_idle';
+            this.walkAnim = 'eliteknight_walk';
         } else if (this.enemyType === 'captain') {
-            this.idleAnim = 'knight_idle';
-            this.walkAnim = 'knight_walk';
+            this.idleAnim = 'captain_idle';
+            this.walkAnim = 'captain_walk';
         }
 
         let enemyVelocity = new Phaser.Math.Vector2();

@@ -1,0 +1,52 @@
+{
+    "anims": [
+        {
+            "key": "eliteknight_walk",
+            "type": "frames",
+            "repeat": -1,
+            "frameRate": 12,
+            "frames": [
+                {
+                    "key": "eliteknight",
+                    "frame": "eliteknight_walk_1"
+                },
+                {
+                    "key": "eliteknight",
+                    "frame": "eliteknight_walk_2"
+                },
+                {
+                    "key": "eliteknight",
+                    "frame": "eliteknight_walk_3"
+                },
+                {
+                    "key": "eliteknight",
+                    "frame": "eliteknight_walk_4"
+                }
+            ]
+        },
+        {
+            "key": "eliteknight_idle",
+            "type": "frames",
+            "repeat": -1,
+            "frameRate": 12,
+            "frames": [
+                {
+                    "key": "eliteknight",
+                    "frame": "eliteknight_idle_1"
+                },
+                {
+                    "key": "eliteknight",
+                    "frame": "eliteknight_idle_2"
+                },
+                {
+                    "key": "eliteknight",
+                    "frame": "eliteknight_idle_3"
+                },
+                {
+                    "key": "eliteknight",
+                    "frame": "eliteknight_idle_4"
+                }
+            ]
+        }
+    ]
+}

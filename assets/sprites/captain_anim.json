@@ -1,0 +1,52 @@
+{
+    "anims": [
+        {
+            "key": "captain_walk",
+            "type": "frames",
+            "repeat": -1,
+            "frameRate": 12,
+            "frames": [
+                {
+                    "key": "captain",
+                    "frame": "largeeliteknight_walk_1"
+                },
+                {
+                    "key": "captain",
+                    "frame": "largeeliteknight_walk_2"
+                },
+                {
+                    "key": "captain",
+                    "frame": "largeeliteknight_walk_3"
+                },
+                {
+                    "key": "captain",
+                    "frame": "largeeliteknight_walk_4"
+                }
+            ]
+        },
+        {
+            "key": "captain_idle",
+            "type": "frames",
+            "repeat": -1,
+            "frameRate": 12,
+            "frames": [
+                {
+                    "key": "captain",
+                    "frame": "largeeliteknight_idle_1"
+                },
+                {
+                    "key": "captain",
+                    "frame": "largeeliteknight_idle_2"
+                },
+                {
+                    "key": "captain",
+                    "frame": "largeeliteknight_idle_3"
+                },
+                {
+                    "key": "captain",
+                    "frame": "largeeliteknight_idle_4"
+                }
+            ]
+        }
+    ]
+}

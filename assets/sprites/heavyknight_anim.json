@@ -1,0 +1,52 @@
+{
+    "anims": [
+        {
+            "key": "heavyknight_walk",
+            "type": "frames",
+            "repeat": -1,
+            "frameRate": 12,
+            "frames": [
+                {
+                    "key": "heavyknight",
+                    "frame": "heavyknight_walk_1"
+                },
+                {
+                    "key": "heavyknight",
+                    "frame": "heavyknight_walk_2"
+                },
+                {
+                    "key": "heavyknight",
+                    "frame": "heavyknight_walk_3"
+                },
+                {
+                    "key": "heavyknight",
+                    "frame": "heavyknight_walk_4"
+                }
+            ]
+        },
+        {
+            "key": "heavyknight_idle",
+            "type": "frames",
+            "repeat": -1,
+            "frameRate": 12,
+            "frames": [
+                {
+                    "key": "heavyknight",
+                    "frame": "heavyknight_idle_1"
+                },
+                {
+                    "key": "heavyknight",
+                    "frame": "heavyknight_idle_2"
+                },
+                {
+                    "key": "heavyknight",
+                    "frame": "heavyknight_idle_3"
+                },
+                {
+                    "key": "heavyknight",
+                    "frame": "heavyknight_idle_4"
+                }
+            ]
+        }
+    ]
+}
