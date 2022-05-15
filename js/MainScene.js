@@ -102,7 +102,20 @@ export default class MainScene extends Phaser.Scene {
                 this.player.visible = false;
             } else if (command[0] === 'visible') {
                 this.player.visible = true;
+            } else if (command[0] === 'currentWave') {
+                alert(`Spawned Wave: ${this.wave - 1}\nWave Variable: ${this.wave}`);
             }
+        }
+
+        if (this.player.x <= 0 || this.player.x >= 32 * 32 || this.player.y <= 0 || this.player.y >= 32 * 32) {
+            alert('Uh oh... you noclipped out of reality. Thankfully, the gods have chosen to save you and push you back in time to the start of the previous wave.');
+            this.player.x = 16 * 32;
+            this.player.y = 16 * 32;
+            this.wave -= 1;
+            this.enemies.forEach(function (enemy) {
+                enemy.destroy();
+            });
+            this.enemies = [];
         }
     }
 
