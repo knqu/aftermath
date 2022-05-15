@@ -7,24 +7,28 @@ export default class Enemy extends Phaser.Physics.Matter.Sprite {
 
         if (this.enemyType === 'standard') {
             this.damage = 2;
+            this.health = 4;
             this.armor = 1;
             this.speed = 3.25;
             this.viewRange = 5;
             this.radius = 12;
         } else if (this.enemyType === 'heavy') {
             this.damage = 3;
+            this.health = 5;
             this.armor = 4;
             this.speed = 2.75;
             this.viewRange = 5;
             this.radius = 14;
         } else if (this.enemyType === 'elite') {
             this.damage = 3;
+            this.health = 6;
             this.armor = 2;
             this.speed = 3.75;
             this.viewRange = 6;
             this.radius = 12;
         } else if (this.enemyType === 'captain') {
             this.damage = 5;
+            this.health = 10;
             this.armor = 8;
             this.speed = 3.5;
             this.viewRange = 7;
@@ -38,6 +42,12 @@ export default class Enemy extends Phaser.Physics.Matter.Sprite {
             parts: [enemyCollider, enemySensor],
             frictionAir: 0.3
         });
+
+        if (this.enemyType === 'standard' || this.enemyType === 'elite') {
+            this.setScale(1.25);
+        } else if (this.enemyType === 'heavy') {
+            this.setScale(1.5);
+        }
 
         this.setScale(1.25);
         this.setExistingBody(compoundBody);
@@ -76,9 +86,6 @@ export default class Enemy extends Phaser.Physics.Matter.Sprite {
         if (Phaser.Math.Distance.Between(this.x, this.y, this.scene.player.x, this.scene.player.y) < (this.viewRange * 32) && this.scene.player.visible) {
             enemyVelocity.x = this.scene.player.x - this.x;
             enemyVelocity.y = this.scene.player.y - this.y;
-        } else {
-            enemyVelocity.x = 0;
-            enemyVelocity.y = 0;
         }
 
         enemyVelocity.normalize().scale(this.speed);

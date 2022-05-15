@@ -4,9 +4,16 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
         super(scene.matter.world, x, y);
         this.scene.add.existing(this);
 
+        this.damage = 3;
+        this.health = 8;
+        this.armor = 0;
+        this.speed = 4;
+        this.viewRange = 8;
+        this.radius = 12;
+
         const { Body, Bodies } = Phaser.Physics.Matter.Matter;
-        let playerCollider = Bodies.circle(this.x, this.y, 12, { isSensor: false, label: 'playerCollider' });
-        let playerSensor = Bodies.circle(this.x, this.y, 8 * 32, { isSensor: true, label: 'playerSensor' });
+        let playerCollider = Bodies.circle(this.x, this.y, this.radius, { isSensor: false, label: 'playerCollider' });
+        let playerSensor = Bodies.circle(this.x, this.y, this.viewRange * 32, { isSensor: true, label: 'playerSensor' });
         const compoundBody = Body.create({
             parts: [playerCollider, playerSensor],
             frictionAir: 0.3
@@ -24,7 +31,6 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
     }
 
     update() {
-        const speed = 4;
         let playerVelocity = new Phaser.Math.Vector2();
 
         if (this.inputKeys.keyA.isDown || this.inputKeys.keyLEFT.isDown) {
@@ -39,7 +45,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
             playerVelocity.y = 1;
         }
 
-        playerVelocity.normalize().scale(speed);
+        playerVelocity.normalize().scale(this.speed);
         this.setVelocity(playerVelocity.x, playerVelocity.y);
 
         if (this.velocity.x < 0) {
