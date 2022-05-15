@@ -226,6 +226,7 @@
                  "objectgroup":
                     {
                      "draworder":"index",
+                     "id":2,
                      "name":"",
                      "objects":[
                             {
@@ -235,8 +236,8 @@
                              "rotation":0,
                              "type":"",
                              "visible":true,
-                             "width":32,
-                             "x":0,
+                             "width":34,
+                             "x":-1,
                              "y":0
                             }],
                      "opacity":1,

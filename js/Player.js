@@ -6,7 +6,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
 
         const { Body, Bodies } = Phaser.Physics.Matter.Matter;
         let playerCollider = Bodies.circle(this.x, this.y, 12, { isSensor: false, label: 'playerCollider' });
-        let playerSensor = Bodies.circle(this.x, this.y, 24, { isSensor: true, label: 'playerSensor' });
+        let playerSensor = Bodies.circle(this.x, this.y, 8 * 32, { isSensor: true, label: 'playerSensor' });
         const compoundBody = Body.create({
             parts: [playerCollider, playerSensor],
             frictionAir: 0.3
@@ -18,8 +18,8 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
     }
 
     static preload(scene) {
-        scene.load.atlas('archer', 'assets/images/archer.png', 'assets/images/archer_atlas.json');
         // https://superdark.itch.io/16x16-free-npc-pack
+        scene.load.atlas('archer', 'assets/images/archer.png', 'assets/images/archer_atlas.json');
         scene.load.animation('archer_anim', 'assets/images/archer_anim.json');
     }
 

@@ -48,30 +48,30 @@ export default class MainScene extends Phaser.Scene {
 
         if (this.enemies.length === 0) {
             if (this.wave === 1) {
-                this.spawnEnemy('standard', 4);
+                this.spawnEnemies('standard', 4);
             } else if (this.wave === 2) {
-                this.spawnEnemy('standard', 4);
-                this.spawnEnemy('heavy', 2);
+                this.spawnEnemies('standard', 4);
+                this.spawnEnemies('heavy', 2);
             } else if (this.wave === 3) {
-                this.spawnEnemy('standard', 4);
-                this.spawnEnemy('heavy', 4);
+                this.spawnEnemies('standard', 4);
+                this.spawnEnemies('heavy', 4);
             } else if (this.wave === 4) {
-                this.spawnEnemy('elite', 6);
+                this.spawnEnemies('elite', 6);
             } else if (this.wave === 5) {
-                this.spawnEnemy('captain', 1);
+                this.spawnEnemies('captain', 1);
             }
             this.wave += 1;
         }
 
         if (this.player.inputKeys.keyTAB.isDown) {
-            let command = prompt('Enter a command using the following format: \n[command] [arg1] [arg2]');
+            let command = prompt('[DEBUG CONSOLE] Enter a command:');
             if (!command) {
                 return;
             }
             command = command.split(' ');
 
             if (command[0] === 'spawnEnemies') {
-                this.spawnEnemy(command[1], command[2]);
+                this.spawnEnemies(command[1], command[2]);
             } else if (command[0] === 'setWave') {
                 this.wave = parseInt(command[1]);
                 this.enemies.forEach(function (enemy) {
@@ -102,31 +102,22 @@ export default class MainScene extends Phaser.Scene {
         }
     }
 
-    generateCoordinate() {
-        let n = Phaser.Math.Between(32, 992);
-        while (n >= this.player.x - 320 && n <= this.player.x + 320) { // 8 tiles
-            n = Phaser.Math.Between(32, 992);
+    generateCoordinates() {
+        let coords = [];
+        for (let i = 0; i < 2; i++) {
+            let n = Phaser.Math.Between(4 * 32, 28 * 32);
+            while (n >= this.player.x - 8 * 32 && n <= this.player.x + 8 * 32) {
+                n = Phaser.Math.Between(4 * 32, 28 * 32);
+            }
+            coords.push(n);
         }
-        return n;
+        return coords;
     }
 
-    spawnEnemy(type, amount) {
-        if (type === 'standard') {
-            for (let i = 0; i < amount; i++) {
-                this.enemies.push(new Enemy({ scene: this, x: this.generateCoordinate(), y: this.generateCoordinate(), type: 'standard' }));
-            }
-        } else if (type === 'heavy') {
-            for (let i = 0; i < amount; i++) {
-                this.enemies.push(new Enemy({ scene: this, x: this.generateCoordinate(), y: this.generateCoordinate(), type: 'heavy' }));
-            }
-        } else if (type === 'elite') {
-            for (let i = 0; i < amount; i++) {
-                this.enemies.push(new Enemy({ scene: this, x: this.generateCoordinate(), y: this.generateCoordinate(), type: 'elite' }));
-            }
-        } else if (type === 'captain') {
-            for (let i = 0; i < amount; i++) {
-                this.enemies.push(new Enemy({ scene: this, x: this.generateCoordinate(), y: this.generateCoordinate(), type: 'captain' }));
-            }
+    spawnEnemies(type, amount) {
+        for (let i = 0; i < amount; i++) {
+            let coords = this.generateCoordinates();
+            this.enemies.push(new Enemy({ scene: this, x: coords[0], y: coords[1], type: type }));
         }
     }
 }
