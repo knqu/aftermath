@@ -6,30 +6,44 @@ export default class Enemy extends Phaser.Physics.Matter.Sprite {
         this.enemyType = type;
 
         if (this.enemyType === 'standard') {
+            this.sword = new Phaser.GameObjects.Sprite(this.scene, 0, 0, 'swords', 0);
+        } else if (this.enemyType === 'heavy') {
+            this.sword = new Phaser.GameObjects.Sprite(this.scene, 0, 0, 'swords', 4);
+            this.sword.setScale(1.2);
+        } else if (this.enemyType === 'elite') {
+            this.sword = new Phaser.GameObjects.Sprite(this.scene, 0, 0, 'swords', 1);
+        } else if (this.enemyType === 'captain') {
+            this.sword = new Phaser.GameObjects.Sprite(this.scene, 0, 0, 'swords', 17);
+            this.sword.setScale(1.6);
+        }
+        this.sword.setOrigin(0.25, 0.75);
+        this.scene.add.existing(this.sword);
+
+        if (this.enemyType === 'standard') {
             this.damage = 2;
-            this.health = 4;
-            this.armor = 1;
+            this.health = 6;
+            this.armor = 4;
             this.speed = 3.25;
             this.viewRange = 5;
             this.radius = 12;
         } else if (this.enemyType === 'heavy') {
             this.damage = 3;
-            this.health = 5;
-            this.armor = 4;
+            this.health = 8;
+            this.armor = 10;
             this.speed = 2.75;
             this.viewRange = 5;
             this.radius = 14;
         } else if (this.enemyType === 'elite') {
             this.damage = 3;
-            this.health = 6;
-            this.armor = 2;
+            this.health = 10;
+            this.armor = 6;
             this.speed = 3.75;
             this.viewRange = 6;
             this.radius = 12;
         } else if (this.enemyType === 'captain') {
             this.damage = 5;
-            this.health = 10;
-            this.armor = 8;
+            this.health = 16;
+            this.armor = 20;
             this.speed = 3.5;
             this.viewRange = 7;
             this.radius = 18;
@@ -64,14 +78,16 @@ export default class Enemy extends Phaser.Physics.Matter.Sprite {
         scene.load.animation('eliteknight_anim', 'assets/sprites/eliteknight_anim.json');
         scene.load.atlas('captain', 'assets/sprites/captain.png', 'assets/sprites/captain_atlas.json');
         scene.load.animation('captain_anim', 'assets/sprites/captain_anim.json');
+        // https://disven.itch.io/pixel-swords-assets-16x16
+        scene.load.spritesheet('swords', 'assets/sprites/swords.png', { frameWidth: 16, frameHeight: 16 });
     }
 
     get velocity() {
         return this.body.velocity;
     }
 
-    update() {
-        if (this.dead) {
+    update(delta) {
+        if (!this.active || !this.scene.player.active) {
             return;
         }
 
@@ -94,6 +110,10 @@ export default class Enemy extends Phaser.Physics.Matter.Sprite {
         if (Phaser.Math.Distance.Between(this.x, this.y, this.scene.player.x, this.scene.player.y) < (this.viewRange * 32) && this.scene.player.visible) {
             enemyVelocity.x = this.scene.player.x - this.x;
             enemyVelocity.y = this.scene.player.y - this.y;
+
+            if (Phaser.Math.Distance.Between(this.x, this.y, this.scene.player.x, this.scene.player.y) < 32) {
+                this.attack(delta);
+            }
         }
 
         enemyVelocity.normalize().scale(this.speed);
@@ -109,6 +129,41 @@ export default class Enemy extends Phaser.Physics.Matter.Sprite {
             this.anims.play(this.idleAnim, true);
         } else {
             this.anims.play(this.idleAnim, true);
+        }
+
+        this.sword.setPosition(this.x, this.y);
+        this.rotateSword(delta);
+    }
+
+    rotateSword(delta) {
+        let player = this.scene.player;
+        if (Phaser.Math.Distance.Between(this.x, this.y, player.x, player.y) < 32) {
+            this.swordRotation += delta * 0.4;
+        } else {
+            this.swordRotation = 0;
+        }
+
+        if (this.swordRotation > 100) {
+            this.attack(player);
+            this.swordRotation = 0;
+        }
+
+        if (this.flipX) {
+            this.sword.setAngle(-this.swordRotation - 90);
+        } else {
+            this.sword.setAngle(this.swordRotation);
+        }
+    }
+
+    attack(player) {
+        if (player.armor > 0) {
+            player.armor -= this.damage;
+        } else if (player.health > 0) {
+            player.health -= this.damage;
+        }
+        if (player.health <= 0) {
+            player.destroy();
+            alert('You died! Reload to start a new game.');
         }
     }
 

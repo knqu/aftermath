@@ -47,6 +47,10 @@ export default class MainScene extends Phaser.Scene {
     }
 
     update(time, delta) {
+        if (!this.player.active) {
+            return;
+        }
+
         this.player.update(delta);
         this.enemies.forEach(function (enemy) { enemy.update(delta); });
 
@@ -85,18 +89,18 @@ export default class MainScene extends Phaser.Scene {
             } else if (command[0] === 'teleport') {
                 this.player.x = command[1] * 32;
                 this.player.y = command[2] * 32;
-            } else if (command[0] === 'locateEnemies') {
-                let coords = [];
+            } else if (command[0] === 'enemies') {
+                let txt = [];
                 this.enemies.forEach(function (enemy) {
-                    coords.push(`[${enemy.enemyType}] [HP: ${enemy.health}] ${enemy.x / 32}, ${enemy.y / 32}`);
+                    txt.push(`${enemy.enemyType}: [HP: ${enemy.health}, AR: ${enemy.armor}] [${Math.round(enemy.x / 32)}, ${Math.round(enemy.y / 32)}]`);
                 });
                 if (command[1] === 'console') {
-                    for (let i = 0; i < coords.length; i++) {
-                        console.log(coords[i]);
+                    for (let i = 0; i < txt.length; i++) {
+                        console.log(txt[i]);
                     }
                     console.log('');
                 } else {
-                    alert(coords.join('\n'));
+                    alert(txt.join('\n'));
                 }
             } else if (command[0] === 'invisible') {
                 this.player.visible = false;
@@ -104,6 +108,13 @@ export default class MainScene extends Phaser.Scene {
                 this.player.visible = true;
             } else if (command[0] === 'currentWave') {
                 alert(`Spawned Wave: ${this.wave - 1}\nWave Variable: ${this.wave}`);
+            } else if (command[0] === 'player') {
+                let txt = `player: [HP: ${this.player.health}, AR: ${this.player.armor}]`;
+                if (command[1] === 'console') {
+                    console.log(txt);
+                } else {
+                    alert(txt);
+                }
             }
         }
 
