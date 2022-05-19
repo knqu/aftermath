@@ -66,7 +66,15 @@ export default class Enemy extends Phaser.Physics.Matter.Sprite {
         scene.load.animation('captain_anim', 'assets/sprites/captain_anim.json');
     }
 
+    get velocity() {
+        return this.body.velocity;
+    }
+
     update() {
+        if (this.dead) {
+            return;
+        }
+
         if (this.enemyType === 'standard') {
             this.idleAnim = 'knight_idle';
             this.walkAnim = 'knight_walk';
@@ -102,10 +110,6 @@ export default class Enemy extends Phaser.Physics.Matter.Sprite {
         } else {
             this.anims.play(this.idleAnim, true);
         }
-    }
-
-    get velocity() {
-        return this.body.velocity;
     }
 
     getRandomIntger(max) {

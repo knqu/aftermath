@@ -46,9 +46,9 @@ export default class MainScene extends Phaser.Scene {
         this.camera.startFollow(this.player);
     }
 
-    update() {
-        this.player.update();
-        this.enemies.forEach(function (enemy) { enemy.update(); });
+    update(time, delta) {
+        this.player.update(delta);
+        this.enemies.forEach(function (enemy) { enemy.update(delta); });
 
         if (this.enemies.length === 0) {
             if (this.wave === 1) {
@@ -88,7 +88,7 @@ export default class MainScene extends Phaser.Scene {
             } else if (command[0] === 'locateEnemies') {
                 let coords = [];
                 this.enemies.forEach(function (enemy) {
-                    coords.push(`[${enemy.enemyType}] ${enemy.x / 32}, ${enemy.y / 32}`);
+                    coords.push(`[${enemy.enemyType}] [HP: ${enemy.health}] ${enemy.x / 32}, ${enemy.y / 32}`);
                 });
                 if (command[1] === 'console') {
                     for (let i = 0; i < coords.length; i++) {

@@ -4,12 +4,16 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
         super(scene.matter.world, x, y);
         this.scene.add.existing(this);
 
-        this.damage = 3;
+        this.damage = 1;
         this.health = 8;
         this.armor = 0;
         this.speed = 4;
         this.viewRange = 8;
         this.radius = 12;
+
+        this.sword = new Phaser.GameObjects.Sprite(this.scene, 0, 0, 'swords', 2);
+        this.sword.setOrigin(0.25, 0.75);
+        this.scene.add.existing(this.sword);
 
         const { Body, Bodies } = Phaser.Physics.Matter.Matter;
         let playerCollider = Bodies.circle(this.x, this.y, this.radius, { isSensor: false, label: 'playerCollider' });
@@ -28,9 +32,15 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
         // https://superdark.itch.io/16x16-free-npc-pack
         scene.load.atlas('archer', 'assets/sprites/archer.png', 'assets/sprites/archer_atlas.json');
         scene.load.animation('archer_anim', 'assets/sprites/archer_anim.json');
+        // https://disven.itch.io/pixel-swords-assets-16x16
+        scene.load.spritesheet('swords', 'assets/sprites/swords.png', { frameWidth: 16, frameHeight: 16 });
     }
 
-    update() {
+    get velocity() {
+        return this.body.velocity;
+    }
+
+    update(delta) {
         let playerVelocity = new Phaser.Math.Vector2();
 
         if (this.inputKeys.keyA.isDown || this.inputKeys.keyLEFT.isDown) {
@@ -59,9 +69,40 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
         } else {
             this.anims.play('archer_idle', true);
         }
+
+        this.sword.setPosition(this.x, this.y);
+
+        this.rotateSword(delta);
     }
 
-    get velocity() {
-        return this.body.velocity;
+    rotateSword(delta) {
+        let pointer = this.scene.input.activePointer;
+        if (pointer.isDown) {
+            this.swordRotation += delta * 0.4;
+            this.attack();
+        } else {
+            this.swordRotation = 0;
+        }
+
+        if (this.swordRotation > 100) {
+            this.swordRotation = 0;
+        }
+
+        if (this.flipX) {
+            this.sword.setAngle(-this.swordRotation - 90);
+        } else {
+            this.sword.setAngle(this.swordRotation);
+        }
+    }
+
+    attack() {
+        for (let enemy of this.scene.enemies) {
+            if (Phaser.Math.Distance.Between(this.x, this.y, enemy.x, enemy.y) < 32) {
+                enemy.health -= this.damage;
+                if (enemy.health <= 0) {
+                    enemy.destroy();
+                }
+            }
+        }
     }
 }
