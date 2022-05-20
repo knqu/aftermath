@@ -12,6 +12,10 @@ Use either WASD or arrow keys to control your player. Hold left click to attack 
 
 You will face multiple waves of enemies, becoming increasingly more difficult to defeat. However, you will start gaining slight advantages after beating the second wave, with the help of a cryptic mage.
 
+Tip: you outrange the enemies by a single tile, so use this to your advantage: keep a slight distance away from them (but make sure you're still facing them when attacking, as otherwise the hit will not be registered).
+
+Bonus tip: reload to restart the game. I thought this would be obvious but @tcmmichaelb139 apparently thought different.
+
 ## Asset Credits
 
 ### Graphics
