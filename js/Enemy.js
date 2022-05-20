@@ -6,20 +6,6 @@ export default class Enemy extends Phaser.Physics.Matter.Sprite {
         this.enemyType = type;
 
         if (this.enemyType === 'standard') {
-            this.sword = new Phaser.GameObjects.Sprite(this.scene, 0, 0, 'swords', 0);
-        } else if (this.enemyType === 'heavy') {
-            this.sword = new Phaser.GameObjects.Sprite(this.scene, 0, 0, 'swords', 4);
-            this.sword.setScale(1.2);
-        } else if (this.enemyType === 'elite') {
-            this.sword = new Phaser.GameObjects.Sprite(this.scene, 0, 0, 'swords', 1);
-        } else if (this.enemyType === 'captain') {
-            this.sword = new Phaser.GameObjects.Sprite(this.scene, 0, 0, 'swords', 17);
-            this.sword.setScale(1.6);
-        }
-        this.sword.setOrigin(0.25, 0.75);
-        this.scene.add.existing(this.sword);
-
-        if (this.enemyType === 'standard') {
             this.damage = 2;
             this.health = 6;
             this.armor = 4;
@@ -48,6 +34,25 @@ export default class Enemy extends Phaser.Physics.Matter.Sprite {
             this.viewRange = 7;
             this.radius = 18;
         }
+
+        if (this.enemyType === 'standard') {
+            this.sword = new Phaser.GameObjects.Sprite(this.scene, 0, 0, 'swords', 0);
+            this.sword.setScale(1.2);
+        } else if (this.enemyType === 'heavy') {
+            this.sword = new Phaser.GameObjects.Sprite(this.scene, 0, 0, 'swords', 4);
+            this.sword.setScale(1.3);
+        } else if (this.enemyType === 'elite') {
+            this.sword = new Phaser.GameObjects.Sprite(this.scene, 0, 0, 'swords', 1);
+            this.sword.setScale(1.2);
+        } else if (this.enemyType === 'captain') {
+            this.sword = new Phaser.GameObjects.Sprite(this.scene, 0, 0, 'swords', 17);
+            this.sword.setScale(1.6);
+        }
+        this.sword.setOrigin(0.25, 0.75);
+        this.scene.add.existing(this.sword);
+
+        this.arBar = this.scene.add.text(0, 0, `HP: ${this.health} | AR: ${this.armor}`, { fontFamily: 'Courier', fontSize: '8px' });
+        this.hpBar = this.scene.add.text(0, 0, `HP: ${this.health} | AR: ${this.armor}`, { fontFamily: 'Courier', fontSize: '8px' });
 
         const { Body, Bodies } = Phaser.Physics.Matter.Matter;
         let enemyCollider = Bodies.circle(this.x, this.y, this.radius, { isSensor: false, label: 'enemyCollider' });
@@ -133,17 +138,23 @@ export default class Enemy extends Phaser.Physics.Matter.Sprite {
 
         this.sword.setPosition(this.x, this.y);
         this.rotateSword(delta);
+
+
+        this.arBar.setText(`AR:${this.armor}`);
+        this.arBar.setPosition(this.x - (this.hpBar.width / 2), this.y - 30);
+        this.hpBar.setText(`HP:${this.health}`);
+        this.hpBar.setPosition(this.x - (this.hpBar.width / 2), this.y - 24);
     }
 
     rotateSword(delta) {
         let player = this.scene.player;
-        if (Phaser.Math.Distance.Between(this.x, this.y, player.x, player.y) < 32) {
+        if (Phaser.Math.Distance.Between(this.x, this.y, player.x, player.y) < 32 && player.visible) {
             this.swordRotation += delta * 0.4;
         } else {
             this.swordRotation = 0;
         }
 
-        if (this.swordRotation > 100) {
+        if (this.swordRotation > 100 && player.visible) {
             this.attack(player);
             this.swordRotation = 0;
         }
@@ -162,8 +173,13 @@ export default class Enemy extends Phaser.Physics.Matter.Sprite {
             player.health -= this.damage;
         }
         if (player.health <= 0) {
-            player.destroy();
-            alert('You died! Reload to start a new game.');
+            player.arBar.destroy();
+            player.hpBar.destroy();
+            player.visible = false;
+            setTimeout(function () {
+                player.destroy();
+                alert('You died! Reload to start a new game.');
+            }, 100);
         }
     }
 

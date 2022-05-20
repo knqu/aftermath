@@ -104,17 +104,24 @@ export default class MainScene extends Phaser.Scene {
                 }
             } else if (command[0] === 'invisible') {
                 this.player.visible = false;
+                this.player.sword.visible = false;
             } else if (command[0] === 'visible') {
                 this.player.visible = true;
+                this.player.sword.visible = true;
             } else if (command[0] === 'currentWave') {
                 alert(`Spawned Wave: ${this.wave - 1}\nWave Variable: ${this.wave}`);
-            } else if (command[0] === 'player') {
-                let txt = `player: [HP: ${this.player.health}, AR: ${this.player.armor}]`;
-                if (command[1] === 'console') {
-                    console.log(txt);
-                } else {
-                    alert(txt);
+            } else if (command[0] === 'setStats') {
+                if (command[1] === 'health') {
+                    this.player.health = command[2];
+                } else if (command[1] === 'armor') {
+                    this.player.armor = command[2];
+                } else if (command[1] === 'damage') {
+                    this.player.damage = command[2];
+                } else if (command[1] === 'speed') {
+                    this.player.speed = command[2];
                 }
+            } else {
+                alert('Invalid command');
             }
         }
 
