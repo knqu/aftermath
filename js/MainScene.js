@@ -1,5 +1,6 @@
 import Player from './Player.js';
 import Enemy from './Enemy.js';
+import Mage from './Mage.js';
 
 export default class MainScene extends Phaser.Scene {
     constructor() {
@@ -68,6 +69,15 @@ export default class MainScene extends Phaser.Scene {
             } else if (this.wave === 5) {
                 this.spawnEnemies('captain', 1);
             }
+
+            // this.spawnMage(this.wave);
+            if (this.wave !== 1) {
+                this.player.health = 20;
+                alert('Health restored!');
+            } else if (this.wave === 6) {
+                alert('Game over! You have successfully beat the Darkwatch!');
+            }
+
             this.wave += 1;
         }
 
@@ -120,6 +130,8 @@ export default class MainScene extends Phaser.Scene {
                 } else if (command[1] === 'speed') {
                     this.player.speed = command[2];
                 }
+            } else if (command[0] === 'spawnMage') {
+                this.spawnMage(command[1]);
             } else {
                 alert('Invalid command');
             }
@@ -155,4 +167,14 @@ export default class MainScene extends Phaser.Scene {
             this.enemies.push(new Enemy({ scene: this, x: coords[0], y: coords[1], type: type }));
         }
     }
+
+    spawnMage(wave) {
+        let x;
+        if (this.player.flipX) {
+            x = this.player.x - 32;
+        } else {
+            x = this.player.x + 32;
+        }
+        new Mage({ scene: this, x: x, y: this.player.y, wave: wave });
+    };
 }
