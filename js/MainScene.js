@@ -1,6 +1,5 @@
 import Player from './Player.js';
 import Enemy from './Enemy.js';
-import Mage from './Mage.js';
 
 export default class MainScene extends Phaser.Scene {
     constructor() {
