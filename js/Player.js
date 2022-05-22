@@ -78,6 +78,10 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
 
         this.sword.setPosition(this.x, this.y);
         this.rotateSword(delta);
+
+        if (this.armor < 0) {
+            this.armor = 0;
+        }
     }
 
     rotateSword(delta) {
