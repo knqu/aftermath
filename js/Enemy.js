@@ -1,9 +1,10 @@
 export default class Enemy extends Phaser.Physics.Matter.Sprite {
     constructor(data) {
-        let { scene, x, y, type } = data;
-        super(scene.matter.world, x, y, type);
+        let { scene, x, y, type, uiScene } = data;
+        super(scene.matter.world, x, y, type, uiScene);
         this.scene.add.existing(this);
         this.enemyType = type;
+        this.uiScene = uiScene;
 
         if (this.enemyType === 'standard') {
             this.damage = 2;
@@ -177,8 +178,8 @@ export default class Enemy extends Phaser.Physics.Matter.Sprite {
             player.health -= this.damage;
         }
         if (player.health <= 0) {
-            player.arBar.destroy();
-            player.hpBar.destroy();
+            this.uiScene.arBar.destroy();
+            this.uiScene.hpBar.destroy();
             player.visible = false;
             setTimeout(function () {
                 player.destroy();

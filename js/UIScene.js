@@ -5,8 +5,8 @@ export default class UIScene extends Phaser.Scene {
     }
 
     create() {
-        this.arBar = this.add.text(286, 250, 'a', { fontFamily: 'Courier', fontSize: '10px' });
-        this.hpBar = this.add.text(286, 260, 'a', { fontFamily: 'Courier', fontSize: '10px' });
+        this.arBar = this.add.text(286, 250, '', { fontFamily: 'Courier', fontSize: '10px' });
+        this.hpBar = this.add.text(286, 260, '', { fontFamily: 'Courier', fontSize: '10px' });
     }
 
     update() {
