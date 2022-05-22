@@ -20,10 +20,10 @@ export default class Enemy extends Phaser.Physics.Matter.Sprite {
             this.viewRange = 5;
             this.radius = 14;
         } else if (this.enemyType === 'elite') {
-            this.damage = 3;
+            this.damage = 4;
             this.health = 10;
             this.armor = 6;
-            this.speed = 3.75;
+            this.speed = 3.5;
             this.viewRange = 6;
             this.radius = 12;
         } else if (this.enemyType === 'captain') {
