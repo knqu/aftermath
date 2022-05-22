@@ -144,6 +144,10 @@ export default class Enemy extends Phaser.Physics.Matter.Sprite {
         this.arBar.setPosition(this.x - (this.hpBar.width / 2), this.y - 30);
         this.hpBar.setText(`HP:${this.health}`);
         this.hpBar.setPosition(this.x - (this.hpBar.width / 2), this.y - 24);
+
+        if (this.armor < 0) {
+            this.armor = 0;
+        }
     }
 
     rotateSword(delta) {
