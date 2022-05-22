@@ -16,9 +16,6 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
         this.sword.setOrigin(0.25, 0.75);
         this.scene.add.existing(this.sword);
 
-        this.arBar = this.scene.add.text(0, 0, `HP: ${this.health} | AR: ${this.armor}`, { fontFamily: 'Courier', fontSize: '8px' });
-        this.hpBar = this.scene.add.text(0, 0, `HP: ${this.health} | AR: ${this.armor}`, { fontFamily: 'Courier', fontSize: '8px' });
-
         const { Body, Bodies } = Phaser.Physics.Matter.Matter;
         let playerCollider = Bodies.circle(this.x, this.y, this.radius, { isSensor: false, label: 'playerCollider' });
         let playerSensor = Bodies.circle(this.x, this.y, this.viewRange * 32, { isSensor: true, label: 'playerSensor' });
@@ -81,11 +78,6 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
 
         this.sword.setPosition(this.x, this.y);
         this.rotateSword(delta);
-
-        this.arBar.setText(`AR:${this.armor}`);
-        this.arBar.setPosition(this.x - (this.hpBar.width / 2), this.y - 30);
-        this.hpBar.setText(`HP:${this.health}`);
-        this.hpBar.setPosition(this.x - (this.hpBar.width / 2), this.y - 24);
     }
 
     rotateSword(delta) {

@@ -1,4 +1,5 @@
 import MainScene from './MainScene.js';
+import UIScene from './UIScene.js';
 
 const config = {
     type: Phaser.AUTO,
@@ -16,7 +17,7 @@ const config = {
             debug: false
         }
     },
-    scene: [MainScene],
+    scene: [MainScene, UIScene],
     plugins: {
         scene: [
             {
