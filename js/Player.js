@@ -86,7 +86,7 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
 
     rotateSword(delta) {
         let pointer = this.scene.input.activePointer;
-        if (pointer.isDown) {
+        if (pointer.isDown || this.inputKeys.keySPACE.isDown) {
             this.swordRotation += delta * 0.4;
         } else {
             this.swordRotation = 0;

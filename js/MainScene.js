@@ -39,6 +39,7 @@ export default class MainScene extends Phaser.Scene {
             keyDOWN: Phaser.Input.Keyboard.KeyCodes.DOWN,
             keyLEFT: Phaser.Input.Keyboard.KeyCodes.LEFT,
             keyRIGHT: Phaser.Input.Keyboard.KeyCodes.RIGHT,
+            keySPACE: Phaser.Input.Keyboard.KeyCodes.SPACE,
             keyTAB: Phaser.Input.Keyboard.KeyCodes.TAB
         });
 

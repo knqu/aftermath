@@ -187,8 +187,4 @@ export default class Enemy extends Phaser.Physics.Matter.Sprite {
             }, 100);
         }
     }
-
-    getRandomIntger(max) {
-        return Math.floor(Math.random() * Math.floor(max));
-    }
 }
