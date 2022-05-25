@@ -31,7 +31,7 @@ export default class Enemy extends Phaser.Physics.Matter.Sprite {
             this.damage = 5;
             this.health = 20;
             this.armor = 20;
-            this.speed = 3.5;
+            this.speed = 3.75;
             this.viewRange = 7;
             this.radius = 18;
         }

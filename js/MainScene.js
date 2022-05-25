@@ -61,14 +61,22 @@ export default class MainScene extends Phaser.Scene {
             } else if (this.wave === 2) {
                 this.spawnEnemies('standard', 4);
                 this.spawnEnemies('heavy', 2);
+                this.player.armor += 1;
+                alert('Wave beaten! Armor +1');
             } else if (this.wave === 3) {
                 this.spawnEnemies('standard', 4);
                 this.spawnEnemies('heavy', 4);
+                this.player.damage += 1;
+                alert('Wave beaten! Damage +1');
             } else if (this.wave === 4) {
                 this.spawnEnemies('elite', 6);
+                this.armor += 2;
+                alert('Wave beaten! Armor +2');
             } else if (this.wave === 5) {
                 this.spawnEnemies('captain', 1);
-                this.spawnEnemies('elite', 2);
+                this.spawnEnemies('elite', 4);
+                this.speed += 0.25;
+                alert('Wave beaten! Speed +0.25');
             }
 
             // this.spawnMage(this.wave);
