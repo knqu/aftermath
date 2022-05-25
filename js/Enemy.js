@@ -182,8 +182,8 @@ export default class Enemy extends Phaser.Physics.Matter.Sprite {
             this.uiScene.hpBar.destroy();
             player.visible = false;
             setTimeout(function () {
-                player.destroy();
                 alert('You died! Reload to start a new game.');
+                player.destroy();
             }, 100);
         }
     }

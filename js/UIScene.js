@@ -11,6 +11,11 @@ export default class UIScene extends Phaser.Scene {
 
     update() {
         const mainScene = this.scene.get('MainScene');
+
+        if (!mainScene.player) {
+            return;
+        }
+
         if (mainScene.player) {
             this.arBar.setText(`AR:${mainScene.player.armor}`);
             this.hpBar.setText(`HP:${mainScene.player.health}`);

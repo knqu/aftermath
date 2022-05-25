@@ -6,6 +6,7 @@ export default class MainScene extends Phaser.Scene {
         super('MainScene');
         this.enemies = [];
         this.wave = 1;
+        this.usedConsoleCommands = false;
     }
 
     preload() {
@@ -67,14 +68,15 @@ export default class MainScene extends Phaser.Scene {
                 this.spawnEnemies('elite', 6);
             } else if (this.wave === 5) {
                 this.spawnEnemies('captain', 1);
+                this.spawnEnemies('elite', 2);
             }
 
             // this.spawnMage(this.wave);
-            if (this.wave !== 1) {
+            if (this.wave > 1 && this.wave < 6) {
                 this.player.health = 20;
                 alert('Health restored!');
             } else if (this.wave === 6) {
-                alert('Game over! You have successfully beat the Darkwatch!');
+                alert(`Game over! You have successfully beat the Darkwatch!\nUSED_CONSOLE_COMMANDS: ${this.usedConsoleCommands}`);
             }
 
             this.wave += 1;
@@ -85,6 +87,8 @@ export default class MainScene extends Phaser.Scene {
             if (!command) {
                 return;
             }
+
+            this.usedConsoleCommands = true;
             command = command.split(' ');
 
             if (command[0] === 'spawnEnemies') {
@@ -161,9 +165,10 @@ export default class MainScene extends Phaser.Scene {
     }
 
     spawnEnemies(type, amount) {
+        const uiScene = this.scene.get('UIScene');
         for (let i = 0; i < amount; i++) {
             let coords = this.generateCoordinates();
-            this.enemies.push(new Enemy({ scene: this, x: coords[0], y: coords[1], type: type }));
+            this.enemies.push(new Enemy({ scene: this, x: coords[0], y: coords[1], type: type, uiScene: uiScene }));
         }
     }
 
