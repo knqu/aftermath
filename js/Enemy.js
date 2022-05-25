@@ -29,7 +29,7 @@ export default class Enemy extends Phaser.Physics.Matter.Sprite {
             this.radius = 12;
         } else if (this.enemyType === 'captain') {
             this.damage = 5;
-            this.health = 16;
+            this.health = 20;
             this.armor = 20;
             this.speed = 3.5;
             this.viewRange = 7;
