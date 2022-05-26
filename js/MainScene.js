@@ -63,7 +63,7 @@ export default class MainScene extends Phaser.Scene {
                 this.spawnEnemies('standard', 4);
                 this.spawnEnemies('heavy', 2);
                 this.player.armor += 1;
-                alert('Wave beaten! Armor +1');
+                alert('Wave beaten! Armor +1 - Please note that armor is not restored after each wave.');
             } else if (this.wave === 3) {
                 this.spawnEnemies('standard', 4);
                 this.spawnEnemies('heavy', 4);
@@ -71,21 +71,20 @@ export default class MainScene extends Phaser.Scene {
                 alert('Wave beaten! Damage +1');
             } else if (this.wave === 4) {
                 this.spawnEnemies('elite', 6);
-                this.armor += 2;
-                alert('Wave beaten! Armor +2');
+                this.player.armor += 2;
+                alert('Wave beaten! Armor +2 - Please note that armor is not restored after each wave.');
             } else if (this.wave === 5) {
                 this.spawnEnemies('captain', 1);
                 this.spawnEnemies('elite', 4);
                 this.speed += 0.25;
                 alert('Wave beaten! Speed +0.25');
-            }
-
-            // this.spawnMage(this.wave);
-            if (this.wave > 1 && this.wave < 6) {
-                this.player.health = 20;
-                alert('Health restored!');
             } else if (this.wave === 6) {
                 alert(`Game over! You have successfully beat the Darkwatch!\nUSED_CONSOLE_COMMANDS: ${this.usedConsoleCommands}`);
+            }
+
+            if (this.wave > 1 && this.wave < 6 && this.player.health < this.player.maxHealth) {
+                this.player.health = this.player.maxHealth;
+                alert(`Health restored to ${this.player.maxHealth}!`);
             }
 
             this.wave += 1;
@@ -108,6 +107,7 @@ export default class MainScene extends Phaser.Scene {
                     enemy.destroy();
                 });
                 this.enemies = [];
+                alert('Note that buffs other than the one given at the start of this wave were NOT assigned');
             } else if (command[0] === 'teleport') {
                 this.player.x = command[1] * 32;
                 this.player.y = command[2] * 32;
@@ -135,29 +135,24 @@ export default class MainScene extends Phaser.Scene {
             } else if (command[0] === 'setStats') {
                 if (command[1] === 'health') {
                     this.player.health = command[2];
+                    this.player.maxHealth = command[2];
                 } else if (command[1] === 'armor') {
+                    this.player.armor = command[2];
                     this.player.armor = command[2];
                 } else if (command[1] === 'damage') {
                     this.player.damage = command[2];
                 } else if (command[1] === 'speed') {
                     this.player.speed = command[2];
                 }
-            } else if (command[0] === 'spawnMage') {
-                this.spawnMage(command[1]);
             } else {
                 alert('Invalid command');
             }
         }
 
         if (this.player.x <= 0 || this.player.x >= 32 * 32 || this.player.y <= 0 || this.player.y >= 32 * 32) {
-            alert('Uh oh... you noclipped out of reality. Thankfully, the gods have chosen to save you and push you back in time to the start of the previous wave.');
+            alert('Uh oh... you noclipped out of reality. Thankfully, the gods have chosen to save you and push you back to the center of the map.');
             this.player.x = 16 * 32;
             this.player.y = 16 * 32;
-            this.wave -= 1;
-            this.enemies.forEach(function (enemy) {
-                enemy.destroy();
-            });
-            this.enemies = [];
         }
     }
 
@@ -180,14 +175,4 @@ export default class MainScene extends Phaser.Scene {
             this.enemies.push(new Enemy({ scene: this, x: coords[0], y: coords[1], type: type, uiScene: uiScene }));
         }
     }
-
-    spawnMage(wave) {
-        let x;
-        if (this.player.flipX) {
-            x = this.player.x - 32;
-        } else {
-            x = this.player.x + 32;
-        }
-        new Mage({ scene: this, x: x, y: this.player.y, wave: wave });
-    };
 }

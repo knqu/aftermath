@@ -5,7 +5,8 @@ export default class Player extends Phaser.Physics.Matter.Sprite {
         this.scene.add.existing(this);
 
         this.damage = 4;
-        this.health = 20;
+        this.maxHealth = 20;
+        this.health = this.maxHealth;
         this.armor = 0;
         this.speed = 4;
         this.viewRange = 8;
