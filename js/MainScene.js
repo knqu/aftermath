@@ -1,3 +1,4 @@
+import Modal from './Modal.js';
 import Player from './Player.js';
 import Enemy from './Enemy.js';
 
@@ -63,28 +64,32 @@ export default class MainScene extends Phaser.Scene {
                 this.spawnEnemies('standard', 4);
                 this.spawnEnemies('heavy', 2);
                 this.player.armor += 1;
-                alert('Wave beaten! Armor +1 - Please note that armor is not restored after each wave.');
+                this.scene.pause();
+                this.scene.launch('ModalScene', { message: `Wave 1 beaten!\n\nArmor +1\n\nHealth restored to ${this.player.maxHealth}` });
             } else if (this.wave === 3) {
                 this.spawnEnemies('standard', 4);
                 this.spawnEnemies('heavy', 4);
                 this.player.damage += 1;
-                alert('Wave beaten! Damage +1');
+                this.scene.pause();
+                this.scene.launch('ModalScene', { message: `Wave 2 beaten!\n\nDamage +1\n\nHealth restored to ${this.player.maxHealth}` });
             } else if (this.wave === 4) {
                 this.spawnEnemies('elite', 6);
                 this.player.armor += 2;
-                alert('Wave beaten! Armor +2 - Please note that armor is not restored after each wave.');
+                this.scene.pause();
+                this.scene.launch('ModalScene', { message: `Wave 3 beaten!\n\nArmor +2\n\nHealth restored to ${this.player.maxHealth}` });
             } else if (this.wave === 5) {
                 this.spawnEnemies('captain', 1);
                 this.spawnEnemies('elite', 4);
                 this.speed += 0.25;
-                alert('Wave beaten! Speed +0.25');
+                this.scene.pause();
+                this.scene.launch('ModalScene', { message: `Wave 4 beaten!\n\nSpeed +0.25\n\nHealth restored to ${this.player.maxHealth}` });
             } else if (this.wave === 6) {
-                alert(`Game over! You have successfully beat the Darkwatch!\nUSED_CONSOLE_COMMANDS: ${this.usedConsoleCommands}`);
-            }
-
-            if (this.wave > 1 && this.wave < 6 && this.player.health < this.player.maxHealth) {
-                this.player.health = this.player.maxHealth;
-                alert(`Health restored to ${this.player.maxHealth}!`);
+                let playedAs = "Hero";
+                if (this.usedConsoleCommands) {
+                    playedAs = "Admin";
+                }
+                this.scene.pause();
+                this.scene.launch('ModalScene', { message: `Congratulations!\n\nYou have beaten the Darkwatch!\n\nPlayed As: ${playedAs}` });
             }
 
             this.wave += 1;

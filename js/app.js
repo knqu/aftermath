@@ -1,5 +1,6 @@
 import MainScene from './MainScene.js';
 import UIScene from './UIScene.js';
+import ModalScene from './ModalScene.js';
 
 const config = {
     type: Phaser.AUTO,
@@ -17,7 +18,7 @@ const config = {
             debug: false
         }
     },
-    scene: [MainScene, UIScene],
+    scene: [MainScene, UIScene, ModalScene],
     plugins: {
         scene: [
             {
