@@ -6,7 +6,7 @@ Aftermath is a top-down RPG made with Phaser. You take the role of a mysterious 
 
 ## How to Play
 
-Play at: https://knqu.github.io/aftermath/
+Play at: https://aftermath.kevinqu.com or https://knqu.github.io/aftermath/
 
 Use either WASD or arrow keys to control your player. Hold left click to attack with your sword.
 
