@@ -20,15 +20,15 @@ export default class Modal extends Phaser.GameObjects.Container {
         }).setOrigin(0.5).setInteractive();
 
         closeBtn.on('pointerdown', () => {
-            this.close(scene);
+            this.close();
         });
 
         this.add([bg, text, closeBtn]);
-        scene.add.existing(this);
+        this.scene.add.existing(this);
     }
 
-    close(scene) {
-        scene.scene.resume('MainScene');
+    close() {
+        this.scene.scene.resume('MainScene');
         this.destroy();
     }
 }

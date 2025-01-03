@@ -178,13 +178,16 @@ export default class Enemy extends Phaser.Physics.Matter.Sprite {
             player.health -= this.damage;
         }
         if (player.health <= 0) {
-            this.uiScene.arBar.destroy();
-            this.uiScene.hpBar.destroy();
             player.visible = false;
-            setTimeout(function () {
-                alert('You died! Reload to start a new game.');
-                player.destroy();
-            }, 100);
+            player.sword.visible = false;
+
+            this.uiScene.arBar.setVisible(false);
+            this.uiScene.hpBar.setVisible(false);
+
+            this.scene.input.keyboard.enabled = false;
+
+            this.scene.scene.pause();
+            this.scene.scene.launch('ModalScene', { message: 'You were slain by the Darkwatch.\n\nReload to start a new game.' });
         }
     }
 }

@@ -1,4 +1,3 @@
-import Modal from './Modal.js';
 import Player from './Player.js';
 import Enemy from './Enemy.js';
 
@@ -64,23 +63,27 @@ export default class MainScene extends Phaser.Scene {
                 this.spawnEnemies('standard', 4);
                 this.spawnEnemies('heavy', 2);
                 this.player.armor += 1;
+                this.player.health = this.player.maxHealth;
                 this.scene.pause();
                 this.scene.launch('ModalScene', { message: `Wave 1 beaten!\n\nArmor +1\n\nHealth restored to ${this.player.maxHealth}` });
             } else if (this.wave === 3) {
                 this.spawnEnemies('standard', 4);
                 this.spawnEnemies('heavy', 4);
                 this.player.damage += 1;
+                this.player.health = this.player.maxHealth;
                 this.scene.pause();
                 this.scene.launch('ModalScene', { message: `Wave 2 beaten!\n\nDamage +1\n\nHealth restored to ${this.player.maxHealth}` });
             } else if (this.wave === 4) {
                 this.spawnEnemies('elite', 6);
                 this.player.armor += 2;
+                this.player.health = this.player.maxHealth;
                 this.scene.pause();
                 this.scene.launch('ModalScene', { message: `Wave 3 beaten!\n\nArmor +2\n\nHealth restored to ${this.player.maxHealth}` });
             } else if (this.wave === 5) {
                 this.spawnEnemies('captain', 1);
                 this.spawnEnemies('elite', 4);
                 this.speed += 0.25;
+                this.player.health = this.player.maxHealth;
                 this.scene.pause();
                 this.scene.launch('ModalScene', { message: `Wave 4 beaten!\n\nSpeed +0.25\n\nHealth restored to ${this.player.maxHealth}` });
             } else if (this.wave === 6) {
@@ -155,7 +158,8 @@ export default class MainScene extends Phaser.Scene {
         }
 
         if (this.player.x <= 0 || this.player.x >= 32 * 32 || this.player.y <= 0 || this.player.y >= 32 * 32) {
-            alert('Uh oh... you noclipped out of reality. Thankfully, the gods have chosen to save you and push you back to the center of the map.');
+            this.scene.pause();
+            this.scene.launch('ModalScene', { message: 'You noclipped out of reality.\n\nThankfully, you were saved by a higher being.' });
             this.player.x = 16 * 32;
             this.player.y = 16 * 32;
         }
